@@ -1,0 +1,57 @@
+'scopeName': 'source.ksp-cfg'
+'filetypes': ['cfg', 'craft', 'sfs']
+'name': 'Kerbal Space Program Config'
+'patterns': [
+    {
+        'match': '(//.*)'
+        'captures':
+            '0': 'name': 'comment.line.double-slash.kspcfg'
+        'comment': 'Anything after 2 slashes is a comment.'
+    }
+    {
+        'match': '(?<=\\W|^)(PART|RESOURCE|MODULE|MODEL|PROPELLANT|GAME|PARAMETERS|FLIGHT|EDITOR|TRACKINGSTATION|SPACECENTER|DIFFICULTY|CAREER|SCENARIO|FLIGHTSTATE|VESSEL|ORBIT|ACTIONGROUPS|DISCOVERY|FLIGHTPLAN|CTRLSTATE|ROSTER|KERBAL|MESSAGESYSTEM|EVENTS|ACTIONS|PARTDATA|TANK)(?=\\W)'
+        'captures':
+            '0': 'name': 'support.class.kspcfg'
+    }
+    {
+        'match': '(name)\\s*=\\s*(\\w+)'
+        'captures':
+            '1': 'name': 'variable.other.kspcfg'
+            '2': 'name': 'entity.name.function'
+    }
+    {
+        'match': ':NEEDS|:FOR|:HAS|:AFTER|:FINAL'
+        'captures':
+            '0': 'name': 'support.function.kspcfg.mm'
+    }
+    {
+        'match': '(\\w+)\\s*='
+        'captures':
+            '1': 'name': 'variable.other.kspcfg'
+    }
+    {
+        'match': '([-@%!+$#])'
+        'captures':
+            '1': 'name': 'support.function.kspcfg.mm'
+    }
+    {
+        'match': '(?<==)(\\s*([a-z0-9]+\\-){4}[a-z0-9]+)'
+        'captures':
+            '1': 'name': 'constant.numeric.guid.kspcfg.mm'
+    }
+    {
+        'match': '(?<==)(\\s*([Tt]rue|[Ff]alse))'
+        'captures':
+            '1': 'name': 'constant.language.kspcfg'
+    }
+    {
+        'match': '(?<=[=,\\s\\(])(\\s*-?[0-9\\.]+[eE]?-?[0-9\\.]*)'
+        'captures':
+            '1': 'name': 'constant.numeric.kspcfg'
+    }
+    {
+        'match': '\s*-?[0-9\.]+E?-?[0-9\.]*'
+        'captures':
+            '1': 'name': 'constant.numeric.nan.kspcfg'
+    }
+]
