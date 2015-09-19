@@ -1,18 +1,17 @@
 {
   "name": "kerbal-config",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Grammar to syntax-highlight Kerbal Space Program config files, including Module Manager scripts",
   "keywords": [
-      "kerbal",
-      "kerbal space program",
-      "ksp",
-      "grammar"
+    "kerbal",
+    "kerbal space program",
+    "ksp",
+    "grammar"
   ],
   "repository": "https://github.com/gertsonderby/kerbal-config",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
