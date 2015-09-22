@@ -3,49 +3,87 @@
 'name': 'Kerbal Space Program Config'
 'patterns': [
     {
-        'match': '^\\s*([\\w]+(?:/[\\w]+)*)\\s*\\{?(?=//|$)'
+        'match': '(//.*)'
+        'captures':
+            '0': 'name': 'comment.line.double-slash.kspcfg'
+        'comment': 'Anything after 2 slashes is a comment.'
+    }
+    {
+        'comment': 'Node type declaration'
+        'match': '^\\s*([\\w]+(?:/[\\w]+)*)\\s*(?=\\{|//|$)'
         'captures':
             '1': 'name': 'support.class.kspcfg'
     }
-    { 'include': '#namefield' }
-    { 'include': '#field' }
-    { 'include': '#comments' }
     {
-        'match': ':NEEDS|:FOR|:HAS|:AFTER|:FINAL'
+        'comment': 'Node name'
+        'match': '(name)\\s*=\\s*(.+?)(?=//|\\}|$)'
         'captures':
-            '0': 'name': 'support.function.kspcfg.mm'
+            '1': 'name': 'variable.other.kspcfg'
+            '2': 'name': 'entity.name.function.kspcfg'
     }
     {
-        'match': '([-@%!+$#])'
-        'captures':
+        'comment': 'Keys are a name, plus a value'
+        'begin': '(\\w+ ?\\w+)\\s*='
+        'beginCaptures':
+            '1': 'name': 'variable.other.kspcfg'
+        'patterns': [
+            {
+                'include': '#datatypes'
+            }
+        ]
+        'end': '(?=//|\\}|$)'
+    }
+    {
+        'comment': 'Module manager key edit, as described by https://github.com/sarbian/ModuleManager/wiki/Module-Manager-Syntax#operators-available-in-patches---and-their-ordering'
+        'begin': '([-@%!+$#]?)([\\w*?]+)(?=.*=)'
+        'beginCaptures':
             '1': 'name': 'support.function.kspcfg.mm'
+            '2': 'name': 'variable.other.kspcfg.mm'
+        'patterns': [
+            { 'include': '#needs-block' }
+            {
+                'begin': '(?:,\\s*([\\d*]))?\\s*='
+                'beginCaptures':
+                    '1': 'name': 'constant.numeric.kspcfg.mm'
+                'patterns': [
+                    { 'include': '#datatypes' }
+                ]
+                'end': '(?=//|\\}|$)'
+            }
+        ]
+        'end': '(?=//|\\}|$)'
+    }
+    {
+        'comment': 'Module manager node edit, as described by https://github.com/sarbian/ModuleManager/wiki/Module-Manager-Syntax#operators-available-in-patches---and-their-ordering'
+        'begin': '([-@%!+$#])(\\w+)(?!.*=)(?:\\[([\\w*?]*)\\])'
+        'beginCaptures':
+            '1': 'name': 'support.function.kspcfg.mm'
+            '2': 'name': 'support.class.kspcfg'
+            '3': 'name': 'entity.name.function.kspcfg.mm'
+        'patterns': [
+            { 'include': '#needs-block' }
+            { 'include': '#has-block' }
+            {
+                'match': '(:FOR|:BEFORE|:AFTER)\\[(\\w+)\\]'
+                'captures':
+                    '1': 'name': 'support.function.kspcfg.mm'
+                    '2': 'name': 'entity.name.function.kspcfg.mm'
+            }
+            {
+                'match': ':FINAL'
+                'captures':
+                    '0': 'name': 'storage.type.kspcfg.mm'
+            }
+        ]
+        'end': '(?:,\\s*([\\d*]))?\\s*(?=//|\\{|$)'
+        'endCaptures':
+            '1': 'name': 'constant.numeric.kspcfg.mm'
     }
 ]
 'repository':
-    'namefield':
-        {
-            'comment': 'Names are special fields, defining the name of the block.'
-            'match': '(name)\\s*=\\s*(.+)'
-            'captures':
-                '1': 'name': 'variable.other.kspcfg'
-                '2': 'name': 'entity.name.function'
-        }
-    'field':
-        {
-            'comment': 'Fields are a field name, plus a value'
-            'begin': '(\\w+ ?\\w+)\\s*='
-            'beginCaptures':
-                '1': 'name': 'variable.other.kspcfg'
-            'patterns': [
-                {
-                    'include': '#datatypes'
-                }
-            ]
-            'end': '(?=//|$)'
-        }
     'datatypes':
         {
-            'comment': 'These types are found in any field.'
+            'comment': 'These types are found in any key value.'
             'patterns': [
                 {
                     'match': '(?:[a-z0-9]+\\-){4}[a-z0-9]+'
@@ -63,16 +101,48 @@
                         '0': 'name': 'constant.numeric.kspcfg'
                 }
                 {
-                    'match': '.*[a-zA-Z](?<!\\d[Ee]).*'
+                    'match': '.*[a-zA-Z](?<!\\d[Ee]).*(?<!\\})'
                     'captures':
                         '0': 'name': 'string.unquoted.kspcfg'
                 }
             ]
         }
-    'comments':
+    'needs-block':
         {
-            'match': '(//.*)'
+            'match': '(:NEEDS)\\s*\\[\\s*(!?)(\\w+)(?:(\\s*[&|]\\s*!?\\s*)(\\w+))*\\s*\\]'
             'captures':
-                '0': 'name': 'comment.line.double-slash.kspcfg'
-            'comment': 'Anything after 2 slashes is a comment.'
+                '1': 'name': 'support.function.kspcfg.mm'
+                '2': 'name': 'keyword.operator.kspcfg.mm'
+                '3': 'name': 'entity.name.function.kspcfg.mm'
+                '4': 'name': 'keyword.operator.kspcfg.mm'
+                '5': 'name': 'entity.name.function.kspcfg.mm'
+        }
+    'has-block':
+        {
+            'begin': '(:HAS)\\s*\\['
+            'beginCaptures':
+                '1': 'name': 'support.function.kspcfg.mm'
+            'patterns': [
+                {
+                    'comment': 'Select a node'
+                    'match': '([-!@](?<![~#]))?([a-zA-Z]+)\\[\\s*([\\w*?]+)\\s*\\]'
+                    'captures':
+                        '1': 'name': 'support.function.kspcfg.mm'
+                        '2': 'name': 'support.class.kspcfg.mm'
+                        '3': 'name': 'entity.name.function.kspcfg.mm'
+                }
+                {
+                    'comment': 'Select a key'
+                    'begin': '([~#](?<![-!@]))?([a-zA-Z]+)\\['
+                    'beginCaptures':
+                        '1': 'name': 'support.function.kspcfg.mm'
+                        '2': 'name': 'variable.other.kspcfg.mm'
+                    'patterns': [
+                        { 'include': '#data-types' }
+                    ]
+                    'end': '\\]'
+                }
+                { 'include': '#has-block' }
+            ]
+            'end': '\\]'
         }
