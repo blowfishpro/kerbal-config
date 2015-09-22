@@ -3,55 +3,76 @@
 'name': 'Kerbal Space Program Config'
 'patterns': [
     {
-        'match': '(//.*)'
+        'match': '^\\s*([\\w]+(?:/[\\w]+)*)\\s*\\{?(?=//|$)'
         'captures':
-            '0': 'name': 'comment.line.double-slash.kspcfg'
-        'comment': 'Anything after 2 slashes is a comment.'
+            '1': 'name': 'support.class.kspcfg'
     }
-    {
-        'match': '(?<=\\W|^)(PART|RESOURCE|MODULE|MODEL|PROPELLANT|GAME|PARAMETERS|FLIGHT|EDITOR|TRACKINGSTATION|SPACECENTER|DIFFICULTY|CAREER|SCENARIO|FLIGHTSTATE|VESSEL|ORBIT|ACTIONGROUPS|DISCOVERY|FLIGHTPLAN|CTRLSTATE|ROSTER|KERBAL|MESSAGESYSTEM|EVENTS|ACTIONS|PARTDATA|TANK)(?=\\W)'
-        'captures':
-            '0': 'name': 'support.class.kspcfg'
-    }
-    {
-        'match': '(name)\\s*=\\s*(\\w+)'
-        'captures':
-            '1': 'name': 'variable.other.kspcfg'
-            '2': 'name': 'entity.name.function'
-    }
+    { 'include': '#namefield' }
+    { 'include': '#field' }
+    { 'include': '#comments' }
     {
         'match': ':NEEDS|:FOR|:HAS|:AFTER|:FINAL'
         'captures':
             '0': 'name': 'support.function.kspcfg.mm'
     }
     {
-        'match': '(\\w+)\\s*='
-        'captures':
-            '1': 'name': 'variable.other.kspcfg'
-    }
-    {
         'match': '([-@%!+$#])'
         'captures':
             '1': 'name': 'support.function.kspcfg.mm'
     }
-    {
-        'match': '(?<==)(\\s*([a-z0-9]+\\-){4}[a-z0-9]+)'
-        'captures':
-            '1': 'name': 'constant.numeric.guid.kspcfg.mm'
-    }
-    {
-        'match': '(?<==)(\\s*([Tt]rue|[Ff]alse))'
-        'captures':
-            '1': 'name': 'constant.language.kspcfg'
-    }
-    {
-        'match': '(?<=[=,\\s\\(])(\\s*-?[0-9\\.]+[eE]?-?[0-9\\.]*)'
-        'captures':
-            '1': 'name': 'constant.numeric.kspcfg'
-    }
-    {
-        'match': '\s*-?[0-9\.]+E?-?[0-9\.]*'
-        'captures':
-            '1': 'name': 'constant.numeric.nan.kspcfg'
-    }
 ]
+'repository':
+    'namefield':
+        {
+            'comment': 'Names are special fields, defining the name of the block.'
+            'match': '(name)\\s*=\\s*(.+)'
+            'captures':
+                '1': 'name': 'variable.other.kspcfg'
+                '2': 'name': 'entity.name.function'
+        }
+    'field':
+        {
+            'comment': 'Fields are a field name, plus a value'
+            'begin': '(\\w+ ?\\w+)\\s*='
+            'beginCaptures':
+                '1': 'name': 'variable.other.kspcfg'
+            'patterns': [
+                {
+                    'include': '#datatypes'
+                }
+            ]
+            'end': '(?=//|$)'
+        }
+    'datatypes':
+        {
+            'comment': 'These types are found in any field.'
+            'patterns': [
+                {
+                    'match': '(?:[a-z0-9]+\\-){4}[a-z0-9]+'
+                    'captures':
+                        '0': 'name': 'constant.numeric.guid.kspcfg'
+                }
+                {
+                    'match': '[Tt]rue|[Ff]alse'
+                    'captures':
+                        '0': 'name': 'constant.language.kspcfg'
+                }
+                {
+                    'match': '-?[0-9\\.]+[Ee]?-?[0-9\\.]*|Nan|Infinity|None'
+                    'captures':
+                        '0': 'name': 'constant.numeric.kspcfg'
+                }
+                {
+                    'match': '.*[a-zA-Z](?<!\\d[Ee]).*'
+                    'captures':
+                        '0': 'name': 'string.unquoted.kspcfg'
+                }
+            ]
+        }
+    'comments':
+        {
+            'match': '(//.*)'
+            'captures':
+                '0': 'name': 'comment.line.double-slash.kspcfg'
+            'comment': 'Anything after 2 slashes is a comment.'
+        }
