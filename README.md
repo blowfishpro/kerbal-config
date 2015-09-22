@@ -1,7 +1,11 @@
 # Grammar for Kerbal Space Program config files
 
-This is for editing KSP part cfgs, save files, and craft files. It's quite rough as yet.
+This is for editing KSP part cfgs, save files, and craft files.
 
-Some matchers and a whole lot of inspiration drawn from [Nathan Jang's SublimeText plugin](https://github.com/NathanJang/KSP-tmLanguage).
+There is reasonable support for Module Manager files, as seen in the screenshot.
 
-![Screenshot of craft file](Craft.png)
+Still lacking proper indentation/folding support.
+
+A whole lot of inspiration drawn from [Nathan Jang's SublimeText plugin](https://github.com/NathanJang/KSP-tmLanguage).
+
+![Screenshot of RO ModuleManager config](RO_snippet.png)
