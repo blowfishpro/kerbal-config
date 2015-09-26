@@ -31,7 +31,7 @@
                 'include': '#datatypes'
             }
         ]
-        'end': '(?=//|\\}|$)'
+        'end': '(?=//|\\}|\\n)'
     }
     {
         'comment': 'Module manager key edit, as described by https://github.com/sarbian/ModuleManager/wiki/Module-Manager-Syntax#operators-available-in-patches---and-their-ordering'
@@ -48,7 +48,7 @@
                 'patterns': [
                     { 'include': '#datatypes' }
                 ]
-                'end': '(?=//|\\}|$)'
+                'end': '(?=//|\\}|\\n)'
             }
         ]
         'end': '(?=//|\\}|$)'
@@ -101,7 +101,7 @@
                         '0': 'name': 'constant.numeric.kspcfg'
                 }
                 {
-                    'match': '.*[a-zA-Z](?<!\\d[Ee]).*(?<!\\})'
+                    'match': '.*?[a-zA-Z](?<!\\d[Ee]).*?(?=//|\\}|\\n)'
                     'captures':
                         '0': 'name': 'string.unquoted.kspcfg'
                 }
