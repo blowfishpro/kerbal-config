@@ -8,4 +8,4 @@ Still lacking proper indentation/folding support.
 
 A whole lot of inspiration drawn from [Nathan Jang's SublimeText plugin](https://github.com/NathanJang/KSP-tmLanguage).
 
-![Screenshot of RO ModuleManager config](RO_snippet.png)
+![Screenshot of RO ModuleManager config](https://raw.githubusercontent.com/gertsonderby/kerbal-config/master/RO_snippet.png)
