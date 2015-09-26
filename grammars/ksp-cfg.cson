@@ -101,7 +101,7 @@
                         '0': 'name': 'constant.numeric.kspcfg'
                 }
                 {
-                    'match': '.*?[a-zA-Z](?<!\\d[Ee]).*?(?=//|\\}|\\n)'
+                    'match': '(?:(?!//|\\}|\\n).)*?[a-zA-Z](?<!\\d[Ee]).*?(?=//|\\}|\\n)'
                     'captures':
                         '0': 'name': 'string.unquoted.kspcfg'
                 }
