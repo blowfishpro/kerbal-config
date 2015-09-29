@@ -1,0 +1,7 @@
+".ksp-cfg.source":
+  editor:
+    commentStart: '//'
+    increaseIndentPattern: '^.*\\{[^}"\']*$'
+    decreaseIndentPattern: '^(.*\\*/)?\\s*\\}[;\\s]*$'
+    softWrap: true
+    softWrapHangingIndent: 4
