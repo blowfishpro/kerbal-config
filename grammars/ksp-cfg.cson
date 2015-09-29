@@ -55,7 +55,7 @@
     }
     {
         'comment': 'Module manager node edit, as described by https://github.com/sarbian/ModuleManager/wiki/Module-Manager-Syntax#operators-available-in-patches---and-their-ordering'
-        'begin': '([-@%!+$#])(\\w+)(?!.*=)(?:\\[([\\w*?]*)\\])'
+        'begin': '([-@%!+$#])(\\w+)(?!.*=)(?:\\[([-/\\w*?]*)\\])'
         'beginCaptures':
             '1': 'name': 'support.function.kspcfg.mm'
             '2': 'name': 'support.class.kspcfg'
