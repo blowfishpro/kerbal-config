@@ -1,5 +1,5 @@
 'scopeName': 'source.ksp-cfg'
-'filetypes': ['cfg', 'craft', 'sfs']
+'fileTypes': ['cfg', 'craft', 'sfs']
 'name': 'Kerbal Space Program Config'
 'patterns': [
     {
