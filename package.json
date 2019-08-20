@@ -1,6 +1,6 @@
 {
   "name": "kerbal-config",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Grammar to syntax-highlight Kerbal Space Program config files, including Module Manager scripts",
   "keywords": [
     "kerbal",
