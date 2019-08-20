@@ -1,3 +1,6 @@
+## 0.4.2
+* Fix auto-detection of .cfg files
+
 ## 0.4.1
 * Allowed hyphens and slashes in module names in MM node patches.
 
